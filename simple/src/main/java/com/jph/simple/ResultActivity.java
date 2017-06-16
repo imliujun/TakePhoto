@@ -1,18 +1,24 @@
 package com.jph.simple;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
-
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.AbstractDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.jph.takephoto.model.TImage;
-
 import java.io.File;
 import java.util.ArrayList;
-
 
 /**
  * - 支持通过相机拍照获取图片
@@ -35,30 +41,74 @@ import java.util.ArrayList;
  * Eamil:crazycodeboy@gmail.com
  */
 public class ResultActivity extends Activity {
-    ArrayList<TImage>images;
+    ArrayList<TImage> images;
+
+    int width;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_layout);
-        images= (ArrayList<TImage>) getIntent().getSerializableExtra("images");
+        images = (ArrayList<TImage>) getIntent().getSerializableExtra("images");
+
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(dm);
+        width = (dm.widthPixels - (int) (dm.density * 10 + 0.5f)) / 2;
+
         showImg();
     }
+
+
     private void showImg() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.llImages);
         for (int i = 0, j = images.size(); i < j - 1; i += 2) {
             View view = LayoutInflater.from(this).inflate(R.layout.image_show, null);
-            ImageView imageView1 = (ImageView) view.findViewById(R.id.imgShow1);
-            ImageView imageView2 = (ImageView) view.findViewById(R.id.imgShow2);
-            Glide.with(this).load(new File(images.get(i).getCompressPath())).into(imageView1);
-            Glide.with(this).load(new File(images.get(i + 1).getCompressPath())).into(imageView2);
+            SimpleDraweeView imageView1 = (SimpleDraweeView) view.findViewById(R.id.imgShow1);
+            SimpleDraweeView imageView2 = (SimpleDraweeView) view.findViewById(R.id.imgShow2);
+            TImage image1 = images.get(i);
+            TImage image2 = images.get(i + 1);
+            String path1 = TextUtils.isEmpty(image1.getCompressPath())
+                           ? image1.getOriginalPath()
+                           : image1.getCompressPath();
+            String path2 = TextUtils.isEmpty(image2.getCompressPath())
+                           ? image2.getOriginalPath()
+                           : image2.getCompressPath();
+            ImageRequest request1 = ImageRequestBuilder
+                    .newBuilderWithSource(Uri.fromFile(new File(path1)))
+                    .setLocalThumbnailPreviewsEnabled(true)
+                    .setResizeOptions(new ResizeOptions(width, width)).build();
+            AbstractDraweeController controller1 = Fresco.newDraweeControllerBuilder()
+                                                         .setImageRequest(request1)
+                                                         .setAutoPlayAnimations(true).build();
+            ImageRequest request2 = ImageRequestBuilder
+                    .newBuilderWithSource(Uri.fromFile(new File(path2)))
+                    .setLocalThumbnailPreviewsEnabled(true)
+                    .setResizeOptions(new ResizeOptions(width, width)).build();
+            AbstractDraweeController controller2 = Fresco.newDraweeControllerBuilder()
+                                                         .setImageRequest(request2)
+                                                         .setAutoPlayAnimations(true).build();
+            imageView1.setController(controller1);
+            imageView2.setController(controller2);
             linearLayout.addView(view);
         }
         if (images.size() % 2 == 1) {
             View view = LayoutInflater.from(this).inflate(R.layout.image_show, null);
-            ImageView imageView1 = (ImageView) view.findViewById(R.id.imgShow1);
-            Glide.with(this).load(new File(images.get(images.size() - 1).getCompressPath())).into(imageView1);
+            SimpleDraweeView imageView1 = (SimpleDraweeView) view.findViewById(R.id.imgShow1);
+            TImage image1 = images.get(images.size() - 1);
+            String path1 = TextUtils.isEmpty(image1.getCompressPath())
+                           ? image1.getOriginalPath()
+                           : image1.getCompressPath();
+            ImageRequest request1 = ImageRequestBuilder
+                    .newBuilderWithSource(Uri.fromFile(new File(path1)))
+                    .setLocalThumbnailPreviewsEnabled(true)
+                    .setResizeOptions(new ResizeOptions(width, width)).build();
+            AbstractDraweeController controller1 = Fresco.newDraweeControllerBuilder()
+                                                         .setImageRequest(request1)
+                                                         .setAutoPlayAnimations(true).build();
+            imageView1.setController(controller1);
             linearLayout.addView(view);
         }
-
     }
 }

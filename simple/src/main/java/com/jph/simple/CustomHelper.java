@@ -118,6 +118,7 @@ public class CustomHelper{
         if(rgCorrectTool.getCheckedRadioButtonId()==R.id.rbCorrectYes){
             builder.setCorrectImage(true);
         }
+        builder.setSupportGif(true);
         takePhoto.setTakePhotoOptions(builder.create());
 
     }

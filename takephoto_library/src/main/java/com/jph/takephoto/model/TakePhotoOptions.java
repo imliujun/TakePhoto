@@ -19,42 +19,74 @@ public class TakePhotoOptions implements Serializable {
      * 是对拍的照片进行旋转角度纠正
      */
     private boolean correctImage;
+    /**
+     * 是否支持GIF图
+     */
+    private boolean supportGif;
+
 
     private TakePhotoOptions() {
     }
+
 
     public boolean isWithOwnGallery() {
         return withOwnGallery;
     }
 
+
     public void setWithOwnGallery(boolean withOwnGallery) {
         this.withOwnGallery = withOwnGallery;
     }
+
 
     public boolean isCorrectImage() {
         return correctImage;
     }
 
+
     public void setCorrectImage(boolean correctImage) {
         this.correctImage = correctImage;
     }
 
+
+    public boolean isSupportGif() {
+        return supportGif;
+    }
+
+
+    public void setSupportGif(boolean supportGif) {
+        this.supportGif = supportGif;
+    }
+
+
     public static class Builder {
         private TakePhotoOptions options;
+
 
         public Builder() {
             this.options = new TakePhotoOptions();
         }
 
+
         public Builder setWithOwnGallery(boolean withOwnGallery) {
             options.setWithOwnGallery(withOwnGallery);
             return this;
         }
+
+
         public Builder setCorrectImage(boolean isCorrectImage) {
             options.setCorrectImage(isCorrectImage);
             return this;
         }
-        public TakePhotoOptions create(){
+
+
+        public Builder setSupportGif(boolean supportGif) {
+            options.setSupportGif(supportGif);
+            return this;
+        }
+
+
+        public TakePhotoOptions create() {
             return options;
         }
     }
