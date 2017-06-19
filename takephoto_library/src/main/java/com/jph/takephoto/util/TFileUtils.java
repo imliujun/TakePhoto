@@ -1,4 +1,4 @@
-package com.jph.takephoto.uitl;
+package com.jph.takephoto.util;
 
 import android.content.Context;
 import android.util.Log;
