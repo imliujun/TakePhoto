@@ -1,23 +1,36 @@
-## [TakePhoto](https://github.com/imliujun/TakePhoto) 简介
+## [TakePhoto](https://github.com/crazycodeboy/TakePhoto) 简介
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](https://github.com/imliujun/TakePhoto/pulls)
-[![](https://jitpack.io/v/imliujun/TakePhoto.svg)](https://jitpack.io/#imliujun/TakePhoto)
-[![GitHub release](https://img.shields.io/github/release/imliujun/TakePhoto.svg?maxAge=2592000?style=flat-square)](https://github.com/imliujun/TakePhoto/releases)
-[![License Apache2.0](http://img.shields.io/badge/license-Apache2.0-brightgreen.svg?style=flat)](https://raw.githubusercontent.com/imliujun/TakePhoto/master/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](https://github.com/crazycodeboy/TakePhoto/pulls)
+[![Download](https://api.bintray.com/packages/crazycodeboy/maven/TakePhoto/images/download.svg) ](https://bintray.com/crazycodeboy/maven/TakePhoto/_latestVersion)
+[![GitHub release](https://img.shields.io/github/release/crazycodeboy/TakePhoto.svg?maxAge=2592000?style=flat-square)](https://github.com/crazycodeboy/TakePhoto/releases)
+[![License Apache2.0](http://img.shields.io/badge/license-Apache2.0-brightgreen.svg?style=flat)](https://raw.githubusercontent.com/crazycodeboy/TakePhoto/master/LICENSE)
 
 
 
-`TakePhoto`是一款用于在Android设备上获取照片（拍照或从相册、文件中选择）、裁剪图片、压缩图片的开源工具库，目前最新版本[5.0.0](https://github.com/imliujun/TakePhoto/)。
-4.0以下版本及API说明，详见[TakePhoto4.0+](https://github.com/imliujun/TakePhoto/blob/master/README.4+.md)。  
+`TakePhoto`是一款用于在Android设备上获取照片（拍照或从相册、文件中选择）、裁剪图片、压缩图片的开源工具库，目前最新版本[4.0.3](https://github.com/crazycodeboy/TakePhoto/)。
+3.0以下版本及API说明，详见[TakePhoto2.0+](https://github.com/crazycodeboy/TakePhoto/blob/master/README.2+.md)。  
 
 >TakePhoto交流平台：QQ群：556387607（群1，未满）
 
-**V5.0**
+**V4.0**
 
-- 修改自带图片选择工具使用fresco图片加载
-- 默认不引用鲁班压缩库
+- 支持通过相机拍照获取图片
+- 支持从相册选择图片
+- 支持从文件选择图片  
+- 支持批量图片选取
+- 支持图片压缩以及批量图片压缩
+- 支持图片裁切以及批量图片裁切
+- 支持照片旋转角度自动纠正
+- 支持自动权限管理(无需关心SD卡及摄像头权限等问题)
+- 支持对裁剪及压缩参数个性化配置  
+- 提供自带裁剪工具(可选)  
+- 支持智能选取及裁剪异常处理
+- 支持因拍照Activity被回收后的自动恢复   
+- 支持Android7.0
+- +支持多种压缩工具
+- +支持多种图片选择工具
 
-GitHub地址： [https://github.com/imliujun/TakePhoto](https://github.com/imliujun/TakePhoto)
+GitHub地址： [https://github.com/crazycodeboy/TakePhoto](https://github.com/crazycodeboy/TakePhoto)
 ## 目录
 
 - [安装说明](#安装说明)
@@ -34,43 +47,26 @@ GitHub地址： [https://github.com/imliujun/TakePhoto](https://github.com/imliu
 **Gradle:**  
 
 ```groovy
-    allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-
-```groovy
-    compile 'com.github.imliujun:TakePhoto:v5.0.0'
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
 ```
 
 **Maven:**  
 
-```maven
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-
-```maven
-	<dependency>
-	    <groupId>com.github.imliujun</groupId>
-	    <artifactId>TakePhoto</artifactId>
-	    <version>v5.0.0</version>
-	</dependency>
+```groovy
+<dependency>
+  <groupId>com.jph.takephoto</groupId>
+  <artifactId>takephoto_library</artifactId>
+  <version>4.0.3</version>
+  <type>pom</type>
+</dependency>
 ```  
 
 
 ## 演示 
 
 运行效果图：    
-![预览图](https://raw.githubusercontent.com/imliujun/TakePhoto/master/Screenshots/takephoto_preview.png)
-![运行效果图](https://raw.githubusercontent.com/imliujun/TakePhoto/master/Screenshots/%E9%A2%84%E8%A7%88%E5%9B%BE.jpg)
+![预览图](https://raw.githubusercontent.com/crazycodeboy/TakePhoto/master/Screenshots/takephoto_preview.png)
+![运行效果图](https://raw.githubusercontent.com/crazycodeboy/TakePhoto/master/Screenshots/%E9%A2%84%E8%A7%88%E5%9B%BE.jpg)
 
 
 ## 使用说明   
@@ -86,11 +82,11 @@ GitHub地址： [https://github.com/imliujun/TakePhoto](https://github.com/imliu
  void takeFail(TResult result,String msg);
  void takeCancel();
 ```  
-此方式使用简单，满足的大部分的使用需求，具体使用详见[simple](https://github.com/imliujun/TakePhoto/blob/master/simple/src/main/java/com/jph/simple/SimpleActivity.java)。如果通过继承的方式无法满足实际项目的使用，可以通过下面介绍的方式。  
+此方式使用简单，满足的大部分的使用需求，具体使用详见[simple](https://github.com/crazycodeboy/TakePhoto/blob/master/simple/src/main/java/com/jph/simple/SimpleActivity.java)。如果通过继承的方式无法满足实际项目的使用，可以通过下面介绍的方式。  
 
 **方式二：通过组装的方式**  
 
-可参照：[TakePhotoActivity](https://github.com/imliujun/TakePhoto/blob/master/takephoto_library/src/main/java/com/jph/takephoto/app/TakePhotoActivity.java)，以下为主要步骤：  
+可参照：[TakePhotoActivity](https://github.com/crazycodeboy/TakePhoto/blob/master/takephoto_library/src/main/java/com/jph/takephoto/app/TakePhotoActivity.java)，以下为主要步骤：  
 
 1.实现`TakePhoto.TakeResultListener,InvokeListener`接口。
 
@@ -264,7 +260,7 @@ void onPickFromCapture(Uri outPutUri);
  **/
 void onPickMultiple(int limit);
 ```
-以上三种方式均提供对应的裁剪API，详见：[裁剪图片](https://github.com/imliujun/TakePhoto#裁剪图片)。    
+以上三种方式均提供对应的裁剪API，详见：[裁剪图片](https://github.com/crazycodeboy/TakePhoto#裁剪图片)。    
 **注：**  
 由于不同Android Rom厂商对系统有不同程度的定制，有可能导致某种选择图片的方式不支持，所以为了提高`TakePhoto`的兼容性，当某种选的图片的方式不支持时，`TakePhoto`会自动切换成使用另一种选择图片的方式进行图片选择。      
 
@@ -335,7 +331,7 @@ void onCrop(MultipleCrop multipleCrop, CropOptions options)throws TException;
 由于不同Android Rom厂商对系统有不同程度的定制，有可能系统中没有自带或第三方的裁剪工具，所以为了提高`TakePhoto`的兼容性，当系统中没有自带或第三方裁剪工具时，`TakePhoto`会自动切换到使用`TakePhoto`自带的裁剪工具进行裁剪。  
 
 >另外TakePhoto4.0+支持指定使用TakePhoto自带相册,如：`takePhoto.setTakePhotoOptions(new TakePhotoOptions.Builder().setWithOwnGallery(true).create());`
-详情可参考:[Demo](https://github.com/imliujun/TakePhoto/blob/master/simple/src/main/java/com/jph/simple/CustomHelper.java)
+详情可参考:[Demo](https://github.com/crazycodeboy/TakePhoto/blob/master/simple/src/main/java/com/jph/simple/CustomHelper.java)
 
 ### 压缩图片
 你可以选择是否对图片进行压缩处理，你只需要告诉它你是否要启用压缩功能以及`CompressConfig`即可。  
@@ -408,7 +404,7 @@ CompressConfig config=CompressConfig.ofLuban(option);
 takePhoto.onEnableCompress(config,showProgressBar);
 ```
 
->详情可参考Demo:[CustomHelper.java](https://github.com/imliujun/TakePhoto/blob/master/simple/src/main/java/com/jph/simple/CustomHelper.java)
+>详情可参考Demo:[CustomHelper.java](https://github.com/crazycodeboy/TakePhoto/blob/master/simple/src/main/java/com/jph/simple/CustomHelper.java)
 
 
 ## 兼容性
@@ -421,10 +417,10 @@ takePhoto.onEnableCompress(config,showProgressBar);
 在Android N中，Android 框架执行了 StrictMode，应用间共享文件和以前也有所区别。为了适配Android7.0的改变，同时也为了方便大家使用TakePhoto，TakePhoto会自动根据手机的Android版本自行适配，小伙伴们依旧可以向TakePhoto传递`Uri imageUri = Uri.fromFile(file);`类型的Uri而不用担心兼容性问题。
 
 ### TakePhoto在深度兼容性方面的测试    
-![兼容性测试报告](https://raw.githubusercontent.com/imliujun/TakePhoto/master/Screenshots/%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95.jpg)
+![兼容性测试报告](https://raw.githubusercontent.com/crazycodeboy/TakePhoto/master/Screenshots/%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95.jpg)
 
 ### 获取更高的兼容性    
-`TakePhot`o是基于Android官方标准API编写的，适配了目前市场上主流的Rom。如果你在使用过程中发现了适配问题，可以[提交Issues](https://github.com/imliujun/TakePhoto/issues)。   
+`TakePhot`o是基于Android官方标准API编写的，适配了目前市场上主流的Rom。如果你在使用过程中发现了适配问题，可以[提交Issues](https://github.com/crazycodeboy/TakePhoto/issues)。   
 1. 为适配部分手机拍照时会回收`Activity`，`TakePhoto`在`onSaveInstanceState`与 `onCreate`做了相应的恢复处理。  
 2. 为适配部分手机拍照或从相册选择图片时屏幕方向会发生转变,从而导致拍照失败的问题，可以在AndroidManifest.xml中对使用了`TakePhoto`的`Activity`添加android:configChanges="orientation|keyboardHidden|screenSize"配置。  
 eg:  
@@ -443,7 +439,7 @@ eg:
 ```
 
 ## 贡献  
-如果你在使用TakePhoto中遇到任何问题可以提[Issues](https://github.com/imliujun/TakePhoto/issues)出来。另外欢迎大家为TakePhoto贡献智慧，欢迎大家[Fork and Pull requests](https://github.com/imliujun/TakePhoto)。     
+如果你在使用TakePhoto中遇到任何问题可以提[Issues](https://github.com/crazycodeboy/TakePhoto/issues)出来。另外欢迎大家为TakePhoto贡献智慧，欢迎大家[Fork and Pull requests](https://github.com/crazycodeboy/TakePhoto)。     
 
 ## 更新说明
 
@@ -451,8 +447,8 @@ v4.0.3(2017/1/18)
 -----------------
 **Bugfixes**
 
-1. Fixed bug and add new features([`62a6725`](https://github.com/imliujun/TakePhoto/commit/62a6725a99118ec0ce0f4cf1cd76b2ba70e21745))-@[Yanqilong](https://github.com/Yanqilong)
-2. fix 鲁班压缩出现路径重复([`a0a64a59`](https://github.com/imliujun/TakePhoto/commit/a0a64a59762fa8554eb46b6ec544f70a5d46f551))-@[namezhouyu](https://github.com/namezhouyu)
+1. Fixed bug and add new features([`62a6725`](https://github.com/crazycodeboy/TakePhoto/commit/62a6725a99118ec0ce0f4cf1cd76b2ba70e21745))-@[Yanqilong](https://github.com/Yanqilong)
+2. fix 鲁班压缩出现路径重复([`a0a64a59`](https://github.com/crazycodeboy/TakePhoto/commit/a0a64a59762fa8554eb46b6ec544f70a5d46f551))-@[namezhouyu](https://github.com/namezhouyu)
 
 
 v4.0.2(2016/11/28)
@@ -479,5 +475,3 @@ v4.0.2(2016/11/28)
 -dontwarn com.soundcloud.android.crop.**
 
 ```
-
-
